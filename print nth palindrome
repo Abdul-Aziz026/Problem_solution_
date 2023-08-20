@@ -1,0 +1,72 @@
+// https://codedrills.io/problems/kth-palindrome
+// print nth palindrome 1<=n<=1e9.
+
+/*Bismillahir Rahmanir Rahim....*/
+#include <bits/stdc++.h>
+using namespace std;
+//debug..........
+#ifdef Abdul_Aziz
+#include "debug.cpp"
+#else
+#define dbg(x...)
+#endif
+ 
+#define int long long
+#define Yes cout << "Yes\n"
+#define No cout << "No\n"
+
+int pow(int p) {
+    int v = 1;
+    while (p--) {
+        v *= 10;
+    }
+    return v;
+}
+
+
+signed main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    
+    int n; cin >> n ;
+    int ans = 0, len = 0, x ;
+    for (int i=1;i<=17;i+=2) {
+        x = pow((i-1)/2) * 9LL ;
+        len = i;
+        if (ans+x >= n) break;
+        ans += x;
+        len = i+1;
+        if (ans+x >= n) break;
+        ans += x;
+    }
+    // dbg(ans)
+    string s = "";
+    int v = (len+1)/2;
+    for (int i=v;i>0;--i) {
+        int b = 0, ok = 0;
+        for (int j=9;j>=0 &&ans<n;--j) {
+            int p = pow(i-1)*j;
+            // dbg(j, i, p)
+            if (ans+p <= n) {
+                b = j;
+                ans += p;
+                ok = 1;
+                break;
+            }
+        }
+        if (b==0 && i==v) b = 1, ok = 0;
+        if (!ok) ++ans;
+        s += char('0'+b);
+        // dbg(ans, b, s)
+    }
+    // cout << len << " ==> " << ans << endl;
+    string res = s;
+    if (len&1) s.pop_back();
+    reverse(s.begin(), s.end());
+    res += s;
+    long an = 0;
+    for (auto ii: res) an = an * 10 + (ii - '0');
+    return an;
+    // cout << res << endl;
+    return 0;
+}
